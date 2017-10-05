@@ -2,6 +2,7 @@ load ./evm.maude
 
 reduce ( stack    mt
        | program  (0 -> PUSH(5)), (1 -> PUSH(5)), (2 -> ADD)
-       | pc       0  )
+       | pc       0 
+       | gas      10000 )
        .
 quit

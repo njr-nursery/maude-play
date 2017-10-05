@@ -24,15 +24,15 @@ fmod VM-STATE is
     protecting STACK .
     protecting OPCODE .
     sort Program .
-    op ( stack _ |  program _ | pc  _ )  : Stack OpCodes Nat -> Program [ctor] . 
+    op ( stack _ |  program _ | pc  _ | gas _ )  : Stack OpCodes Nat Nat -> Program [ctor] . 
 
-    vars M N PC : Nat .
-    vars S   : Stack .
-    vars OPS : OpCodes .
+    vars M N PC GAS : Nat .
+    vars S      : Stack .
+    vars OPS    : OpCodes .
 
-    eq ( stack S       | program (PC -> PUSH(M)) , OPS | pc   PC )
-     = ( stack (M ; S) | program (PC -> PUSH(M)) , OPS | pc s PC ) .
+    eq ( stack S       | program (PC -> PUSH(M)) , OPS | pc   PC | gas (s GAS) )
+     = ( stack (M ; S) | program (PC -> PUSH(M)) , OPS | pc s PC | gas GAS     ) .
 
-    eq ( stack (M ; N ; S)   | program (PC -> ADD) , OPS | pc   PC )
-     = ( stack ((M + N) ; S) | program (PC -> ADD) , OPS | pc s PC ) .
+    eq ( stack (M ; N ; S)   | program (PC -> ADD) , OPS | pc   PC | gas (s GAS) )
+     = ( stack ((M + N) ; S) | program (PC -> ADD) , OPS | pc s PC | gas GAS     ) .
 endfm
