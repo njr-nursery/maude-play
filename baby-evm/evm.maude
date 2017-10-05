@@ -11,6 +11,13 @@ fmod OPCODE is
     sort OpCode .
     op PUSH : Nat -> OpCode [ctor] . 
     op ADD  :     -> OpCode [ctor] . 
+    op SUB  :     -> OpCode [ctor] . 
+    
+    vars M N : Nat .
+
+    op #sub(_, _) : Nat Nat -> Nat .
+    eq #sub(s N, s M) = #sub(N, M) .
+    eq #sub(N, 0) = N .
 
     sort OpCodes MapItem .
     subsorts MapItem < OpCodes .
@@ -35,4 +42,7 @@ fmod VM-STATE is
 
     eq ( stack (M ; N ; S)   | program (PC -> ADD) , OPS | pc   PC | gas (s GAS) )
      = ( stack ((M + N) ; S) | program (PC -> ADD) , OPS | pc s PC | gas GAS     ) .
+
+    eq ( stack (M ; N ; S)      | program (PC -> SUB) , OPS | pc   PC | gas (s GAS) )
+     = ( stack (#sub(M, N) ; S) | program (PC -> SUB) , OPS | pc s PC | gas GAS     ) .
 endfm
