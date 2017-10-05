@@ -1,0 +1,25 @@
+fmod STACK is
+    protecting NAT .
+    sort Stack .
+    subsorts Nat < Stack .
+    op mt  :           -> Stack [ctor] .
+    op _;_ : Nat Stack -> Stack [ctor] .
+endfm
+
+fmod OPCODE is
+    protecting NAT .
+    sort OpCode .
+    op PUSH : Nat -> OpCode [ctor] . 
+    op ADD  :     -> OpCode [ctor] . 
+
+    sort OpCodes .
+    subsorts OpCode < OpCodes . 
+    op _,_  : OpCode OpCodes -> OpCodes [ctor ] .
+endfm
+
+fmod PROGRAM is
+    protecting STACK .
+    protecting OPCODE .
+    sort Program .
+    op stack( _ )  program ( _ ) pc ( _ )  : Stack OpCodes Nat -> Program [ctor] . 
+endfm

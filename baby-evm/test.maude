@@ -1,0 +1,7 @@
+load ./evm.maude
+
+reduce ( stack  ( mt )
+         program ( PUSH(5), PUSH(5), ADD )
+         pc      ( 0 )
+       ) .
+quit
