@@ -12,14 +12,27 @@ fmod OPCODE is
     op PUSH : Nat -> OpCode [ctor] . 
     op ADD  :     -> OpCode [ctor] . 
 
-    sort OpCodes .
-    subsorts OpCode < OpCodes . 
-    op _,_  : OpCode OpCodes -> OpCodes [ctor ] .
+    sort OpCodes MapItem .
+    subsorts MapItem < OpCodes .
+    op nil     : -> OpCodes .
+    op _ -> _  : Nat OpCode      -> MapItem [ctor] .     
+    op _ , _   : OpCodes OpCodes -> OpCodes [ctor assoc comm id: nil ] .
+
 endfm
 
-fmod PROGRAM is
+fmod VM-STATE is
     protecting STACK .
     protecting OPCODE .
     sort Program .
-    op stack( _ )  program ( _ ) pc ( _ )  : Stack OpCodes Nat -> Program [ctor] . 
+    op ( stack _ |  program _ | pc  _ )  : Stack OpCodes Nat -> Program [ctor] . 
+
+    vars M N PC : Nat .
+    vars S   : Stack .
+    vars OPS : OpCodes .
+
+    eq ( stack S       | program (PC -> PUSH(M)) , OPS | pc   PC )
+     = ( stack (M ; S) | program (PC -> PUSH(M)) , OPS | pc s PC ) .
+
+    eq ( stack (M ; N ; S)   | program (PC -> ADD) , OPS | pc   PC )
+     = ( stack ((M + N) ; S) | program (PC -> ADD) , OPS | pc s PC ) .
 endfm
